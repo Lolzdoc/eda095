@@ -28,7 +28,7 @@ public class Downloader implements Runnable {
     private String extractFileName(URL url) {
         String full_path = url.getFile();
         String[] parts = full_path.split("/");
-        return parts[parts.length - 1];
+        return parts[parts.length - 1]; // last token is the filename
 
     }
 }
