@@ -21,7 +21,7 @@ public class Main {
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         String dir = System.getProperty("user.dir");
         dir = dir + "/" + DOWNLOAD_FOLDER_NAME;
-
+        System.out.println("Downloaded files are stored in: " + dir);
         for (; ; ) {
             System.out.println("Enter a Url: ");
             URL target;
@@ -59,11 +59,11 @@ public class Main {
                         downloaders.add(thr);
                         thr.start();
                     }
-                    System.out.println("Downloaded files are stored in: " + dir);
+
                     int downloads = 0;
                     for (Thread loader : downloaders) { // wait for all of the downloaders to finish before quiting
                         try {
-                            loader.join(10000); // Timeout after 10 ec
+                            loader.join(10000); // Timeout after 10 sec
                             downloads++;
                         } catch (InterruptedException e) {
                             e.printStackTrace();
