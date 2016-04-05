@@ -22,13 +22,11 @@ public class Downloader implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private String extractFileName(URL url) {
         String full_path = url.getFile();
         String[] parts = full_path.split("/");
         return parts[parts.length - 1]; // last token is the filename
-
     }
 }

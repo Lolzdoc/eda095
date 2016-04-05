@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class Main {
     private static final String DOWNLOAD_FOLDER_NAME = "downloaded";
 
-    private static Pattern URL_tag_pattern_pdf = Pattern.compile("<\\s*a\\s*href\\s*=\\s*\"?http{1}\\s*([\\w\\s%#\\/\\.;:_-]*pdf)\\s*\"?.*?");
+    private static Pattern URL_tag_pattern_pdf = Pattern.compile("href=\"([\\w\\/\\.;:_-]+pdf)\"");
     private static Pattern URL_pattern = Pattern.compile("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?");
 
 
@@ -21,9 +21,10 @@ public class Main {
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         String dir = System.getProperty("user.dir");
         dir = dir + "/" + DOWNLOAD_FOLDER_NAME;
-        System.out.println("Downloaded files are stored in: " + dir);
-        for (; ; ) {
-            System.out.println("Enter a Url: ");
+
+
+        while(true) {
+            System.out.print("Enter a Url: ");
             URL target;
 
             Matcher matcher = URL_pattern.matcher(reader.nextLine());
@@ -70,16 +71,14 @@ public class Main {
                             downloads--;
                         }
                     }
+
                     System.out.println("Successfully downloaded: " + downloads + " File(s)");
+                    System.out.println("Downloaded files are stored in: " + dir);
                 } catch (IOException e) {
                     System.out.println("ERROR: Not a Valid URL");
                 }
-
-
             }
-
         }
-
     }
 
     private static boolean createFolder(File theDir) {
@@ -89,7 +88,6 @@ public class Main {
         } catch (SecurityException se) {
             return false;
         }
-
     }
 
     private static ArrayList<URL> getContent(Pattern pattern, String input) {
@@ -97,7 +95,8 @@ public class Main {
         Matcher URL_tag = pattern.matcher(input);
         while (URL_tag.find()) {
             try {
-                content.add(new URL(input.substring(input.indexOf('\"', URL_tag.start()) + 1, URL_tag.end() - 1)));
+                System.out.println(URL_tag.group(1));
+                content.add(new URL(URL_tag.group(1)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
