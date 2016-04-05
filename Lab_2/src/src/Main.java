@@ -1,3 +1,5 @@
+package src;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +17,7 @@ public class Main {
 
     private static Pattern URL_tag_pattern_pdf = Pattern.compile("href=\"([\\w\\/\\.;:_-]+pdf)\"");
     private static Pattern URL_pattern = Pattern.compile("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?");
-
+    private static Semaphore semaphore = new Semaphore(10);
 
     public static void main(String args[]) {
 
@@ -36,7 +39,6 @@ public class Main {
                     StringBuilder inputLine = new StringBuilder();
                     String line;
 
-                    System.out.println(target.getHost());
                     while ((line = in.readLine()) != null) {
                         inputLine.append(line); // reads all the lines in the html file
                     }
@@ -57,7 +59,8 @@ public class Main {
                     }
 
                     for (URL aURLs_found : URLs_found) {
-                        Thread thr = new Thread(new Downloader(aURLs_found, dir));
+                        // Thread thr = new Thread(new RunnableDownloader(aURLs_found, dir, semaphore));
+                        Thread thr = new ThreadDownloader(aURLs_found, dir,semaphore);
                         downloaders.add(thr);
                         thr.start();
                     }

@@ -1,3 +1,5 @@
+package src;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -6,10 +8,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main {
+public class ExecutorsMain {
     private static final String DOWNLOAD_FOLDER_NAME = "downloaded";
 
     private static Pattern URL_tag_pattern_pdf = Pattern.compile("href=\"([\\w\\/\\.;:_-]+pdf)\"");
@@ -36,7 +42,6 @@ public class Main {
                     StringBuilder inputLine = new StringBuilder();
                     String line;
 
-                    System.out.println(target.getHost());
                     while ((line = in.readLine()) != null) {
                         inputLine.append(line); // reads all the lines in the html file
                     }
@@ -44,7 +49,6 @@ public class Main {
                     in.close(); // close stream from server
 
                     ArrayList<URL> URLs_found = getContent(URL_tag_pattern_pdf ,inputLine.toString(), target);
-                    ArrayList<Thread> downloaders = new ArrayList<>(); // contains all of the downloader threads
 
                     File theDir = new File(dir);// if the directory does not exist, create it
 
@@ -55,25 +59,20 @@ public class Main {
                             System.out.println("ERROR: failed to create directory: " + dir);
                         }
                     }
+                    ExecutorService pool = Executors.newFixedThreadPool(30);
 
                     for (URL aURLs_found : URLs_found) {
-                        Thread thr = new Thread(new Downloader(aURLs_found, dir));
-                        downloaders.add(thr);
-                        thr.start();
+                        pool.execute(new RunnableDownloader(aURLs_found, dir));
                     }
 
-                    int downloads = 0;
-                    for (Thread loader : downloaders) { // wait for all of the downloaders to finish before quiting
-                        try {
-                            loader.join(10000); // Timeout after 10 sec
-                            downloads++;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            downloads--;
-                        }
+                    pool.shutdown();
+                    try {
+                        pool.awaitTermination(60, TimeUnit.SECONDS);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
 
-                    System.out.println("Successfully downloaded: " + downloads + " File(s)");
+                    // System.out.println("Successfully downloaded: " + downloads + " File(s)");
                     System.out.println("Downloaded files are stored in: " + dir);
                 } catch (IOException e) {
                     System.out.println("ERROR: Not a Valid URL");
