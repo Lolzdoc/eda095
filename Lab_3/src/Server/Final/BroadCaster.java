@@ -10,7 +10,7 @@ import static java.lang.Thread.sleep;
 
 public class BroadCaster extends Thread {
 
-    private MailBox mailBox;
+    private final MailBox mailBox;
     private Vector<PrintWriter> outputs;
     public BroadCaster(MailBox mailBox, Vector<PrintWriter> outputs) {
         this.mailBox = mailBox;
