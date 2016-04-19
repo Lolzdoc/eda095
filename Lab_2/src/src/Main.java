@@ -60,7 +60,7 @@ public class Main {
 
                     for (URL aURLs_found : URLs_found) {
                         // Thread thr = new Thread(new RunnableDownloader(aURLs_found, dir, semaphore));
-                        Thread thr = new ThreadDownloader(aURLs_found, dir,semaphore);
+                        Thread thr = new ThreadDownloader(aURLs_found, dir, semaphore);
                         downloaders.add(thr);
                         thr.start();
                     }

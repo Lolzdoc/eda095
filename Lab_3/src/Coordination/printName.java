@@ -8,7 +8,6 @@ public class printName extends Thread {
         this.name = name;
     }
 
-
     public void run() {
         for (int i = 0; i < 5; i++) {
             try {
@@ -19,6 +18,4 @@ public class printName extends Thread {
             }
         }
     }
-
-
 }

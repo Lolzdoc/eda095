@@ -2,30 +2,23 @@ package Coordination;
 
 
 public class printMailbox extends Thread {
-    private MailBox nx;
+    private MailBox mailBox;
 
-
-    public printMailbox(MailBox nx) {
-        this.nx = nx;
+    public printMailbox(MailBox mailBox) {
+        this.mailBox = mailBox;
     }
 
     public void run() {
-
         while (true) {
             try {
                 sleep((long) (Math.random() * 10));
-                synchronized (nx) {
-                    String msg = nx.read();
-                    if (!msg.matches("")) {
-                        System.out.println(msg);
-
-                    }
+                String msg = mailBox.read();
+                if (!msg.matches("")) {
+                    System.out.println(msg);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
     }
-
 }

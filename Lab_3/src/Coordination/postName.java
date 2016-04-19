@@ -3,26 +3,21 @@ package Coordination;
 
 public class postName extends Thread {
     private String name;
-    private MailBox nx;
+    private MailBox mailBox;
 
-    public postName(String name, MailBox nx) {
+    public postName(String name, MailBox mailBox) {
         this.name = name;
-        this.nx = nx;
+        this.mailBox = mailBox;
     }
-
 
     public void run() {
         for (int i = 0; i < 5; i++) {
             try {
                 sleep((long) (Math.random() * 10));
-                synchronized (nx) {
-                    nx.post(name);
-                }
+                mailBox.post(name);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
-
 }

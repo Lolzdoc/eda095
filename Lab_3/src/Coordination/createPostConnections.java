@@ -8,18 +8,16 @@ import java.util.ArrayList;
 public class createPostConnections {
 
     public static void main(String args[]) {
-        MailBox nx = new MailBox();
+        MailBox mailBox = new MailBox();
         ArrayList<Thread> threads = new ArrayList<>();
-        threads.add(new printMailbox(nx));
+        threads.add(new printMailbox(mailBox));
 
         for (int i = 0; i < 10; i++) {
-            threads.add(new postName("Thread: " + i, nx));
+            threads.add(new postName("Thread: " + i, mailBox));
         }
+
         for (Thread th : threads) {
             th.start();
         }
-
     }
-
-
 }

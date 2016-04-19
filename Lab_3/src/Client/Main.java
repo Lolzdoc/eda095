@@ -21,6 +21,8 @@ public class Main {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("USAGE: client <host> <port>");
         }
     }
 }

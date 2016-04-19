@@ -4,7 +4,8 @@ package Server;
 public class MailBox {
     private String message = "";
 
-    public void post(String message) {
+    public synchronized void post(String message) {
+
         try {
             wait();
             this.message = message;
@@ -13,10 +14,10 @@ public class MailBox {
         }
     }
 
-    public String read() {
-        String msg = message;
+    public synchronized String read() {
+        String temp = message;
         message = "";
         notifyAll();
-        return msg;
+        return temp;
     }
 }

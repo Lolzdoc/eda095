@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Server {
     private Vector<Connection> connections;
-    private final  MailBox mailBox = new MailBox();
+    private MailBox mailBox = new MailBox();
 
     public Server() {
         connections = new Vector<>();
@@ -21,6 +21,7 @@ public class Server {
             connections.add(connection);
             connection.start();
         } catch (IOException e) {
+            System.out.println("[ERROR] Could not connect to client!");
             e.printStackTrace();
         }
     }

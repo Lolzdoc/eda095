@@ -10,8 +10,5 @@ public class createPrintConnections {
         for (int i = 0; i < 10; i++) {
             new printName("Thread: " + i).start();
         }
-
     }
-
-
 }

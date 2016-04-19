@@ -28,6 +28,5 @@ public class Client {
         new Output(clientSocket, out).start();
 
         System.out.println("[INFO] Connected to server!");
-
     }
 }
