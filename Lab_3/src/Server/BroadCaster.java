@@ -1,18 +1,14 @@
 package Server;
 
-import java.io.PrintWriter;
 import java.util.Vector;
-
-import static java.lang.Thread.sleep;
-
 
 public class BroadCaster extends Thread {
 
     private final MailBox mailBox;
-    private Vector<PrintWriter> outputs;
-    public BroadCaster(MailBox mailBox, Vector<PrintWriter> outputs) {
+    private Vector<Connection> connections;
+    public BroadCaster(MailBox mailBox, Vector<Connection> connections) {
         this.mailBox = mailBox;
-        this.outputs = outputs;
+        this.connections= connections;
     }
 
 
@@ -23,10 +19,9 @@ public class BroadCaster extends Thread {
                 synchronized (mailBox) {
                     String msg = mailBox.read();
                     if (!msg.matches("")) {
-                        for (PrintWriter out : outputs) {
+                        for (Connection connection: connections) {
                             System.out.println("BroadCaster.run " + msg);
-                            out.println(msg);
-                            out.flush();
+                            connection.sendln(msg);
                         }
                     }
                 }

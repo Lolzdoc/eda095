@@ -1,15 +1,29 @@
 package Server;
 
+import Client.Output;
 
 import java.io.*;
+import java.net.Socket;
 
-public class ConnectionService extends Thread {
+/**
+ * Created by dracyr on 2016-04-19.
+ */
+public class Connection extends Thread {
+    private PrintWriter pw;
     private InputStream in;
-    private final MailBox box;
+    private OutputStream out;
+    private MailBox mailBox;
 
-    public ConnectionService(InputStream in, MailBox box) {
-        this.in = in;
-        this.box = box;
+    public Connection(Socket socket, MailBox mailBox) {
+        this.in = socket.getInputStream();
+        this.out = socket.getOutputStream();
+        this.pw = new PrintWriter(out);
+        this.mailBox = mailBox;
+    }
+
+    public void sendln(String msg) {
+        pw.println(msg);
+        pw.flush();
     }
 
     public void run() {
@@ -22,13 +36,12 @@ public class ConnectionService extends Thread {
                 done = false;
                 line = inputStream.readLine();
                 if (line != null) {
-                    System.out.println(line);
-                    if (line.contains("quit")) {
-                        done = true;
-                    } else {
-                        synchronized (box) {
-                            box.post(line);
+                    if (!line.contains("Q:")) {
+                        synchronized (mailBox) {
+                            mailBox.post(line);
                         }
+                    } else {
+                        done = true;
                     }
                 } else {
                     done = true;
