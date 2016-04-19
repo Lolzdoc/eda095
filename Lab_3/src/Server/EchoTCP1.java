@@ -1,9 +1,6 @@
 package Server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -20,6 +17,8 @@ public class EchoTCP1 {
                 Socket socket = serverSocket.accept();
                 BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 OutputStreamWriter outputStream = new OutputStreamWriter(socket.getOutputStream());
+                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+
                 boolean done = false;
                 String line;
                 while (!done) {
@@ -27,7 +26,8 @@ public class EchoTCP1 {
                     line = inputStream.readLine();
                     System.out.println(line);
                     if (line != null) {
-                        outputStream.write(line, 0, line.length());
+                        writer.println(line);
+                        writer.flush();
                         if (line.contains("quit")) {
                             done = true;
                         }
