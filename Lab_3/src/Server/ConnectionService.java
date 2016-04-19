@@ -23,6 +23,9 @@ public class ConnectionService extends Thread {
                 line = inputStream.readLine();
                 if (line != null) {
                     System.out.println(line);
+                    if(line.substring(0,1).matches("M:")){
+                        aswed
+                    }
                     if (line.contains("quit")) {
                         done = true;
                     } else {
@@ -30,6 +33,10 @@ public class ConnectionService extends Thread {
                             box.post(line);
                         }
                     }
+
+
+
+
                 } else {
                     done = true;
                 }
