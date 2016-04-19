@@ -21,13 +21,12 @@ public class Input extends Thread {
 
     public void run() {
         BufferedReader streamReader = new BufferedReader(new InputStreamReader(in));
-        String line;
         boolean connected = true;
         try {
             while (socket.isConnected() && connected) {
-                line = streamReader.readLine();
+                String line = streamReader.readLine();
                 if (line != null) {
-                    System.out.println(streamReader.readLine());
+                    System.out.println(line);
                 } else {
                     connected = false;
                 }
