@@ -1,4 +1,4 @@
-package Server.prototype;
+package Coordination;
 
 
 public class postName extends Thread {

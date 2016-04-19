@@ -1,8 +1,9 @@
-package Server.Final;
+package Coordination;
 
 
 public class MailBox {
     private String message = "";
+
 
     public void post(String message) {
         try {

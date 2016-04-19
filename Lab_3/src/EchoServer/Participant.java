@@ -1,7 +1,7 @@
-package Server;
+package EchoServer;
 
 
-import Server.prototype.MailBox;
+import Coordination.MailBox;
 
 public class Participant {
     private String name;

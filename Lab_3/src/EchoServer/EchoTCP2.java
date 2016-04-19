@@ -1,23 +1,30 @@
-package Server.Final;
+package EchoServer;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
-public class Main {
+public class EchoTCP2 {
+    ArrayList<Socket> sockets = new ArrayList<>();
 
     public static void main(String args[]) {
-        Server server = new Server();
 
         try {
             ServerSocket serverSocket = new ServerSocket(30000);
             while (true) {
+
                 Socket socket = serverSocket.accept();
-                server.addParticipant(socket);
                 System.out.println("[INFO] Client connected!");
+                new Thread(new ConnectionService(socket, socket.getInputStream(), socket.getOutputStream())).start();
+
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
+
 }

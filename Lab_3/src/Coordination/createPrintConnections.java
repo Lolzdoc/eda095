@@ -1,4 +1,4 @@
-package Server.prototype;
+package Coordination;
 
 /**
  * Created by hansr on 2016-04-19.

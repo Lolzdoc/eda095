@@ -1,11 +1,8 @@
-package Server.prototype;
+package Server;
 
-
-import java.util.concurrent.Semaphore;
 
 public class MailBox {
     private String message = "";
-
 
     public void post(String message) {
         try {

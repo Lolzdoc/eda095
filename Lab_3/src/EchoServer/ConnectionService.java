@@ -1,43 +1,48 @@
-package Server.Final;
+package EchoServer;
 
 
 import java.io.*;
+import java.net.Socket;
 
-public class ConnectionService extends Thread {
+public class ConnectionService implements Runnable {
+    private Socket socket;
     private InputStream in;
-    private final MailBox box;
+    private OutputStream out;
 
-    public ConnectionService(InputStream in, MailBox box) {
+    public ConnectionService(Socket socket, InputStream in, OutputStream out) {
+        this.socket = socket;
         this.in = in;
-        this.box = box;
+        this.out = out;
     }
 
     public void run() {
         try {
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(in));
+            OutputStreamWriter outputStream = new OutputStreamWriter(out);
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 
             boolean done = false;
             String line;
-            while (!done) {
+            while (!done && socket.isConnected()) {
                 done = false;
                 line = inputStream.readLine();
                 if (line != null) {
                     System.out.println(line);
+                    writer.println(line);
+                    writer.flush();
                     if (line.contains("quit")) {
                         done = true;
-                    } else {
-                        synchronized (box) {
-                            box.post(line);
-                        }
                     }
                 } else {
                     done = true;
                 }
             }
             inputStream.close();
+            outputStream.close();
             System.out.println("[INFO] Client disconnected!");
         } catch (IOException e) {
             System.out.println("[INFO] Client disconnected!");
+            // e.printStackTrace();
         }
     }
 }

@@ -2,48 +2,42 @@ package Server;
 
 
 import java.io.*;
-import java.net.Socket;
-import java.net.SocketException;
 
-public class ConnectionService implements Runnable {
-    private Socket socket;
+public class ConnectionService extends Thread {
     private InputStream in;
-    private OutputStream out;
+    private final MailBox box;
 
-    public ConnectionService(Socket socket, InputStream in, OutputStream out) {
-        this.socket = socket;
+    public ConnectionService(InputStream in, MailBox box) {
         this.in = in;
-        this.out = out;
+        this.box = box;
     }
 
     public void run() {
         try {
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(in));
-            OutputStreamWriter outputStream = new OutputStreamWriter(out);
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 
             boolean done = false;
             String line;
-            while (!done && socket.isConnected()) {
+            while (!done) {
                 done = false;
                 line = inputStream.readLine();
                 if (line != null) {
                     System.out.println(line);
-                    writer.println(line);
-                    writer.flush();
                     if (line.contains("quit")) {
                         done = true;
+                    } else {
+                        synchronized (box) {
+                            box.post(line);
+                        }
                     }
                 } else {
                     done = true;
                 }
             }
             inputStream.close();
-            outputStream.close();
             System.out.println("[INFO] Client disconnected!");
         } catch (IOException e) {
             System.out.println("[INFO] Client disconnected!");
-            // e.printStackTrace();
         }
     }
 }

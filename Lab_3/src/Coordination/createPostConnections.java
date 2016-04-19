@@ -1,4 +1,4 @@
-package Server.prototype;
+package Coordination;
 
 import java.util.ArrayList;
 

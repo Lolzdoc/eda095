@@ -33,7 +33,7 @@ public class Input extends Thread {
             }
             in.close();
             socket.close();
-            System.out.println("[INFO] Server disconnected");
+            System.out.println("[INFO] EchoServer disconnected");
         } catch (IOException e) {
             e.printStackTrace();
         }
