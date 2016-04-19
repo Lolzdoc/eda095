@@ -38,7 +38,6 @@ public class ConnectionService extends Thread {
             System.out.println("[INFO] Client disconnected!");
         } catch (IOException e) {
             System.out.println("[INFO] Client disconnected!");
-            // e.printStackTrace();
         }
     }
 }

@@ -5,15 +5,16 @@ import java.net.Socket;
 import java.util.Vector;
 
 
-public class ChatSession {
+public class Server {
     private Vector<PrintWriter> outputs;
     private final  MailBox mailBox = new MailBox();
 
-    public ChatSession() {
+    public Server() {
         outputs = new Vector<>();
         BroadCaster caster = new BroadCaster(mailBox, outputs);
         caster.start();
     }
+
     public void addParticipant(Socket socket) {
         try {
             InputStream in = socket.getInputStream();
