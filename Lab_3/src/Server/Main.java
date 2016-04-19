@@ -15,7 +15,8 @@ public class Main {
             while (true) {
 
                 Socket socket = serverSocket.accept();
-                new Thread(new ConnectionService(socket.getInputStream(), socket.getOutputStream())).start();
+                System.out.println("[INFO] Client connected!");
+                new Thread(new ConnectionService(socket, socket.getInputStream(), socket.getOutputStream())).start();
 
             }
 

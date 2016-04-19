@@ -32,8 +32,6 @@ public class EchoTCP1 {
                             done = true;
                         }
                     }
-
-
                 }
                 inputStream.close();
                 outputStream.close();
