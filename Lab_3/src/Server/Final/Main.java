@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Main {
+
     public static void main(String args[]) {
         ArrayList<Socket> sockets = new ArrayList<>();
         ChatSession session = new ChatSession();
@@ -15,16 +16,10 @@ public class Main {
             while (true) {
                 Socket socket = serverSocket.accept();
                 session.addParticipant(socket);
-
-               // new Thread(new ConnectionService(socket.getInputStream(), socket.getOutputStream())).start();
-
+                System.out.println("[INFO] Client connected!");
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-
 }

@@ -1,25 +1,27 @@
 package Server.Final;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Vector;
 
 
 public class ChatSession {
-    private Vector <OutputStreamWriter> outputs;
+    private Vector<PrintWriter> outputs;
     private final  MailBox mailBox = new MailBox();
-    public ChatSession(){
+
+    public ChatSession() {
         outputs = new Vector<>();
         BroadCaster caster = new BroadCaster(mailBox, outputs);
         caster.start();
     }
     public void addParticipant(Socket socket) {
         try {
-            ConnectionService service = new ConnectionService(socket.getInputStream(), mailBox);
-            outputs.add(new OutputStreamWriter(socket.getOutputStream()));
-            service.start();
+            InputStream in = socket.getInputStream();
+            OutputStream out = socket.getOutputStream();
+            ConnectionService service = new ConnectionService(in, mailBox);
 
+            outputs.add(new PrintWriter(out));
+            service.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

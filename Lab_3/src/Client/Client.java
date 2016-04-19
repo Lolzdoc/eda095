@@ -16,7 +16,6 @@ public class Client {
     private final int port;
 
     public Client(String host, int port) {
-        super();
         this.host = host;
         this.port = port;
     }

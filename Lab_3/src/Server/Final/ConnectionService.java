@@ -6,11 +6,11 @@ import java.io.*;
 public class ConnectionService extends Thread {
     private InputStream in;
     private final MailBox box;
-    public ConnectionService(InputStream in,MailBox box) {
+
+    public ConnectionService(InputStream in, MailBox box) {
         this.in = in;
         this.box = box;
     }
-
 
     public void run() {
         try {
@@ -21,8 +21,8 @@ public class ConnectionService extends Thread {
             while (!done) {
                 done = false;
                 line = inputStream.readLine();
-                System.out.println(line);
                 if (line != null) {
+                    System.out.println(line);
                     if (line.contains("quit")) {
                         done = true;
                     } else {
@@ -30,11 +30,15 @@ public class ConnectionService extends Thread {
                             box.post(line);
                         }
                     }
+                } else {
+                    done = true;
                 }
             }
             inputStream.close();
+            System.out.println("[INFO] Client disconnected!");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("[INFO] Client disconnected!");
+            // e.printStackTrace();
         }
     }
 }

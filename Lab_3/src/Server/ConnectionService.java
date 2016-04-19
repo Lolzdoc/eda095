@@ -20,6 +20,8 @@ public class ConnectionService implements Runnable {
         try {
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(in));
             OutputStreamWriter outputStream = new OutputStreamWriter(out);
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+
             boolean done = false;
             String line;
             while (!done && socket.isConnected()) {
@@ -27,7 +29,8 @@ public class ConnectionService implements Runnable {
                 line = inputStream.readLine();
                 if (line != null) {
                     System.out.println(line);
-                    outputStream.write(line, 0, line.length());
+                    writer.println(line);
+                    writer.flush();
                     if (line.contains("quit")) {
                         done = true;
                     }
