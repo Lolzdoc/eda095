@@ -9,8 +9,7 @@ import java.util.Scanner;
 public class SimpleService {
 
     public static void main(String[] args) {
-        String command = "";
-        String client = "";
+        String command;
         String result;
         Locale format = Locale.ENGLISH;
 
@@ -30,7 +29,7 @@ public class SimpleService {
                     result = "Invalid command: "+ command;
                     break;
             }
-            send(client, result);
+            send(result);
         }
     }
 
@@ -61,8 +60,8 @@ public class SimpleService {
         return scan.nextLine();
     }
 
-    private static void send(String client, String result) {
-        System.out.println("Sending: " + "\""+result+"\"" + " to: " + client);
+    private static void send(String result) {
+        System.out.println("Sending: " + "\""+result+"\"");
     }
 
 }

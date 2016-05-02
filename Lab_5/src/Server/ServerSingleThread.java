@@ -3,15 +3,13 @@ package Server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.nio.charset.StandardCharsets;
+
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Scanner;
 
-public class Main {
+
+public class ServerSingleThread {
 
     public static void main(String[] args) {
         Locale format = Locale.ENGLISH;
