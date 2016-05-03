@@ -57,6 +57,7 @@ public class SimpleService {
     private static String receive() {
         System.out.println("Enter a command: ");
         Scanner scan = new Scanner(System.in);
+
         return scan.nextLine();
     }
 

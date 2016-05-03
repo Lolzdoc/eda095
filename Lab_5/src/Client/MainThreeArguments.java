@@ -13,8 +13,9 @@ public class MainThreeArguments {
             String command = args[2].trim();
 
             DatagramSocket socket = new DatagramSocket();
-            DatagramPacket request = new DatagramPacket(command.getBytes(), command.getBytes().length,serverAddress,port);
-            DatagramPacket response = new DatagramPacket(responseBuffer,responseBuffer.length);
+            DatagramPacket request =
+                    new DatagramPacket(command.getBytes(), command.getBytes().length, serverAddress,port);
+            DatagramPacket response = new DatagramPacket(responseBuffer, responseBuffer.length);
 
             socket.send(request);
             System.out.println("Request sent");
