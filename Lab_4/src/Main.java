@@ -9,7 +9,7 @@ public class Main {
     public static void main(String args[]) {
         System.out.print("Enter a Url: ");
         Scanner scan = new Scanner(System.in);
-        String url = scan.nextLine(); //"http://cs.lth.se/eda095/";
+        String url = scan.nextLine().trim(); //"http://cs.lth.se/eda095/";
         ExecutorService pool = Executors.newFixedThreadPool(30);
 
         Spider spider = new Spider(pool);

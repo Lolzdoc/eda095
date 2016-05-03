@@ -24,7 +24,7 @@ public class Spider extends Thread {
         } else {
             pool.shutdownNow();
             if (!havePrinted) {
-                printOut();
+                // printOut();
                 havePrinted = true;
             }
         }

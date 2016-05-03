@@ -21,7 +21,6 @@ public class Processor implements Runnable {
 
     private void processURL(String url) {
         try {
-            System.out.println("url = [" + url + "]");
             Document doc = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
                     .referrer("http://www.google.com")
@@ -39,7 +38,7 @@ public class Processor implements Runnable {
 
             for (Element mailLink : mailLinks) {
                 spider.addEmail(mailLink.attr("href"));
-                System.out.println("[MAIL] " + url);
+                System.out.println("[MAIL] " + mailLink.attr("href"));
             }
 
                 /* Why */
@@ -49,9 +48,8 @@ public class Processor implements Runnable {
                 System.out.println("[FRAME] " + frame.attr("src"));
             }
 
-          //  System.out.println("[PAGE] " + url);
+          System.out.println("[PAGE] " + url);
         } catch (IOException e) {
-            e.printStackTrace();
            System.out.println("[ERROR] '" + url + "' " + e.getMessage());
         }
     }
